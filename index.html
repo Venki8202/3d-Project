@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spicy A-Frame Scene</title>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-environment-component@1.3.1/dist/aframe-environment-component.min.js"></script>
+    <script>
+        AFRAME.registerComponent('change-color-on-hover', {
+            schema: {
+                color: {default: '#1E90FF'}
+            },
+            init: function () {
+                var data = this.data;
+                var el = this.el;
+                var originalColor = el.getAttribute('material').color;
+                
+                el.addEventListener('mouseenter', function () {
+                    el.setAttribute('color', data.color);
+                });
+                el.addEventListener('mouseleave', function () {
+                    el.setAttribute('color', originalColor);
+                });
+            }
+        });
+    </script>
+</head>
+<body>
+    <a-scene>
+        <!-- Environment -->
+        <a-entity environment="preset: forest; dressingAmount: 500"></a-entity>
+
+        <!-- Animated Cube -->
+        <a-box position="-1 1.5 -3" rotation="0 45 0" color="#4CC3D9"
+               animation="property: rotation; to: 0 360 0; loop: true; dur: 10000"
+               change-color-on-hover="color: #FF6347">
+        </a-box>
+
+        <!-- Bouncing Sphere -->
+        <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"
+                  animation="property: position; to: 0 2.5 -5; dir: alternate; dur: 2000; easing: easeInOutQuad; loop: true"
+                  change-color-on-hover="color: #7FFF00">
+        </a-sphere>
+
+        <!-- Pulsating Cylinder -->
+        <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"
+                    animation="property: scale; to: 1.2 1.2 1.2; dir: alternate; dur: 1000; easing: easeInOutQuad; loop: true"
+                    change-color-on-hover="color: #FF69B4">
+        </a-cylinder>
+
+        <!-- Floating Text -->
+        <a-text value="Welcome to VR!" position="-0.9 3.5 -3" color="#FFFFFF" scale="1.5 1.5 1.5"
+                animation="property: rotation; to: 0 360 0; loop: true; dur: 20000">
+        </a-text>
+
+        <!-- Particle System -->
+        <a-entity position="0 2.25 -5" particle-system="preset: snow; particleCount: 5000; size: 0.1; color: #FFF"></a-entity>
+
+        <!-- Camera and cursor -->
+        <a-entity position="0 1.6 0">
+            <a-camera>
+                <a-cursor color="#FFFFFF"></a-cursor>
+            </a-camera>
+        </a-entity>
+    </a-scene>
+</body>
+</html>
